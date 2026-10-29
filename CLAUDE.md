@@ -14,4 +14,4 @@ GitHub. Plan: `../sandbox/docs/PLAN.md` §7, milestone M5.
   checks hashes, schema, `api`, the `from` base digest (`bases.json`) and permissions, and comments a
   report. Merge only after `REVIEW.md`. `Scripts/*.py --selftest` and `swift Scripts/sign.swift selftest` check the scripts.
 - The helper's index checks read this format: change both together.
-- Public repo: `LordVersA/v2mac-store`. Push when the user asks or CI needs to see it; index signatures still need the maintainer's Mac.
+- Public repo: `v2macapp/v2mac-store`. Push when the user asks or CI needs to see it; index signatures still need the maintainer's Mac.
