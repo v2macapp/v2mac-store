@@ -9,11 +9,12 @@ Exit 0 when every check passes; --out writes the checked plugin.json for prepare
 """
 import hashlib, json, os, re, sys, urllib.request, xml.etree.ElementTree
 
-API = 1
+API = 2
 PERMISSIONS = {"clipboard", "shared", "ssh-agent", "sound", "microphone"}
 MAX_LAYER = 4 << 30
 MAX_ICON = 64 << 10
 WORD = re.compile(r"^[0-9A-Za-z.-]{1,64}$")
+PACKAGE = re.compile(r"^[a-z0-9][a-z0-9.-]{0,63}$")
 ENV_KEY = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 BASES = os.path.join(os.path.dirname(__file__), "..", "bases.json")
 
@@ -33,6 +34,10 @@ def problems(manifest, release, bases):
         if not ENV_KEY.match(k) or not isinstance(v, str) or any(c in v for c in "\r\n\0"): out.append(f"bad environment variable `{k}`")
     extra = set(m.get("permissions") or []) - PERMISSIONS
     if extra: out.append(f"unknown permissions: {', '.join(sorted(extra))}")
+    packages = m.get("packages")
+    if packages is not None:
+        if m.get("api") != 2 or not isinstance(packages, list) or not 1 <= len(packages) <= 16 or not all(isinstance(p, str) and PACKAGE.match(p) for p in packages):
+            out.append("`packages` needs `api` 2 and 1–16 Debian package names")
     if m.get("from") not in bases: out.append("`from` is not a released base image digest (bases.json)")
     src = m.get("source") or {}
     if not src.get("repo") or not src.get("commit"): out.append("`source.repo` and `source.commit` are required")
@@ -111,6 +116,7 @@ def main(path, out_path):
             if err: found.append(f"icon {icon}: {err}")
             else: manifest["iconSvg"] = svg
     report.append(f"- id `{manifest.get('id')}`, version `{manifest.get('version')}`, display `{manifest.get('display')}`, commit `{commit}`")
+    if manifest.get("packages"): report.append(f"- Debian packages: {', '.join(manifest['packages'])}")
     report.append(f"- permissions: {', '.join(manifest.get('permissions') or []) or 'none'}")
     report += [f"- ❌ {p}" for p in found] or ["- ✅ every automatic check passed. Review it with REVIEW.md before merging."]
     print("\n".join(report))
@@ -124,9 +130,10 @@ def selftest():
             "launch": {"cmd": ["bash"], "env": {"A": "b"}}, "permissions": ["ssh-agent"], "source": {"repo": "https://github.com/a/b", "commit": "c"},
             "layers": [{"url": rel + "l.tar", "sha256": "a" * 64, "size": 10}]}
     assert problems(good, rel, {"base-cli@sha256:x"}) == []
-    for key, bad in [("api", 2), ("id", "a;b"), ("display", "web"), ("permissions", ["camera"]), ("from", "debian"),
+    for key, bad in [("api", 3), ("packages", ["-o"]), ("packages", []), ("id", "a;b"), ("display", "web"), ("permissions", ["camera"]), ("from", "debian"),
                      ("layers", [{"url": "https://evil/l", "sha256": "a" * 64, "size": 10}]), ("launch", {"cmd": []})]:
         assert problems({**good, key: bad}, rel, {"base-cli@sha256:x"}), key
+    assert problems({**good, "api": 2, "packages": ["firefox-esr"]}, rel, {"base-cli@sha256:x"}) == []
     ns = "xmlns='http://www.w3.org/2000/svg'"
     assert icon_problem(f"<?xml version='1.0'?><svg {ns}><rect fill='url(#g)' clip-path='url( #c )'/></svg>") is None
     for bad in [f"<svg {ns}><script>x</script></svg>", f"<svg {ns}><image href='https://e/x.png'/></svg>", f"<svg {ns} onload='x'/>",

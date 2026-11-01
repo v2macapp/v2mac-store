@@ -11,6 +11,8 @@ published*, not *safe*: this review is what stands behind the store.
 4. **Permissions** are the fewest it needs: `ssh-agent` only for SSH tools, `shared` only to exchange
    files, `clipboard` only where copy/paste is the point, `sound` only for apps that play audio,
    `microphone` only for calls or recording. The reason is in `securityNotes`.
+   A recipe (`packages`, api 2): the names are the apps it claims, its layer holds only settings and scripts,
+   and you tested it on the Debian major version it names. Later updates come from Debian without review.
 5. **Launch**: `launch.cmd` starts the app itself; no shell tricks that fetch code at runtime.
 6. **No network or VM setup** in the plugin (no vsock, iptables, mounts, setuid): the runtime owns those.
 7. **Name and icon** don't impersonate another app or V2Mac.
