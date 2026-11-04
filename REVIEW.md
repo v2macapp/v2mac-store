@@ -18,4 +18,4 @@ published*, not *safe*: this review is what stands behind the store.
 7. **Name and icon** don't impersonate another app or V2Mac.
 8. **Changelog** describes this version; for an update, read the diff since the listed version.
 
-Then merge, `python3 Scripts/prepare-index.py --add <checked plugin.json>`, `swift Scripts/sign.swift sign index.json`, push.
+Record it in `reviews/<id>-<version>.md`. Then merge, `python3 Scripts/prepare-index.py --add <checked plugin.json>`, `swift Scripts/sign.swift sign index.json`, push.
