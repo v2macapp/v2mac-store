@@ -1,44 +1,8 @@
 {
- "version": 5,
- "expires": "2027-01-22T22:58:21Z",
+ "version": 6,
+ "expires": "2027-02-02T01:08:34Z",
  "minApi": 1,
  "plugins": [
-  {
-   "api": 1,
-   "id": "chromium",
-   "name": "Chromium",
-   "version": "0.2.0",
-   "publisher": "V2Mac",
-   "description": "The open-source browser behind Google Chrome, from Debian. Every site sees only this mini VM's exit, in its time zone.",
-   "icon": "icon.svg",
-   "display": "gui",
-   "launch": {
-    "cmd": [
-     "/usr/local/bin/start.sh"
-    ]
-   },
-   "permissions": [
-    "clipboard",
-    "shared",
-    "sound",
-    "microphone"
-   ],
-   "changelog": "Sound works (PulseAudio through PipeWire) and the microphone is available. V2Mac asks you the first time it plays sound or opens the microphone.",
-   "securityNotes": "Clipboard for copy and paste, Shared for downloads and uploads, Sound and Microphone for video, music and calls; V2Mac asks before each is first used while it is open. Runs with --no-sandbox: the mini VM container allows no user namespaces or setuid, so Chromium's own sandbox can't start; the container and the mini VM are the isolation.",
-   "from": "ghcr.io/lordversa/v2mac-base@sha256:3d73538e1d418c438e2cbc2890d5f024b72887072811a1f48ceac1deb0388161",
-   "source": {
-    "repo": "https://github.com/LordVersA/v2mac-chromium",
-    "commit": "103aebdddefc3c5f362827b28f76538cf009be51"
-   },
-   "layers": [
-    {
-     "url": "https://github.com/LordVersA/v2mac-chromium/releases/download/v0.2.0/chromium-0.2.0.tar.gz",
-     "sha256": "66a466f739939590d42f89db831fa47c698d8c69789e7bd6859b4c7f0fbe59ea",
-     "size": 314651017
-    }
-   ],
-   "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 128 128\">\n  <rect width=\"128\" height=\"128\" rx=\"26\" fill=\"#1f3a5f\"/>\n  <circle cx=\"64\" cy=\"64\" r=\"38\" fill=\"none\" stroke=\"#9cc3f0\" stroke-width=\"10\"/>\n  <circle cx=\"64\" cy=\"64\" r=\"14\" fill=\"#9cc3f0\"/>\n</svg>\n"
-  },
   {
    "api": 1,
    "id": "hello-gui",
@@ -73,6 +37,163 @@
     }
    ],
    "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 128 128\">\n  <rect width=\"128\" height=\"128\" rx=\"26\" fill=\"#234858\"/>\n  <rect x=\"24\" y=\"30\" width=\"80\" height=\"68\" rx=\"6\" fill=\"#d4ecdf\"/>\n  <path d=\"M24 48h80\" stroke=\"#234858\" stroke-width=\"6\"/>\n</svg>\n"
+  },
+  {
+   "api": 2,
+   "id": "chromium",
+   "name": "Chromium",
+   "version": "0.3.0",
+   "publisher": "V2Mac",
+   "description": "The open-source browser behind Google Chrome, from Debian. Every site sees only this mini VM's exit, in its time zone.",
+   "icon": "icon.svg",
+   "display": "gui",
+   "launch": {
+    "cmd": [
+     "/usr/local/bin/start.sh"
+    ]
+   },
+   "permissions": [
+    "clipboard",
+    "shared",
+    "sound",
+    "microphone"
+   ],
+   "changelog": "Chromium now comes from Debian and gets Debian's security updates on its own, without waiting for a new V2Mac release.",
+   "securityNotes": "Clipboard for copy and paste, Shared for downloads and uploads, Sound and Microphone for video, music and calls; V2Mac asks before each is first used while it is open. Runs with --no-sandbox: the mini VM container allows no user namespaces or setuid, so Chromium's own sandbox can't start; the container and the mini VM are the isolation.",
+   "packages": [
+    "chromium",
+    "fonts-noto-color-emoji"
+   ],
+   "from": "ghcr.io/v2macapp/v2mac-base@sha256:fbe31f5579158feecc00957f96d2a7fb79c771a5fe99e388cbc4ddd4ae57abfc",
+   "source": {
+    "repo": "https://github.com/v2macapp/v2mac-chromium",
+    "commit": "d27bb01d45247f1a718e94d27441ed74d4dcf203"
+   },
+   "layers": [
+    {
+     "url": "https://github.com/v2macapp/v2mac-chromium/releases/download/v0.3.0/chromium-0.3.0.tar.gz",
+     "sha256": "27054d0446aa70df6738928134d2dc6b7da93e6dddc9057750a022d34850cea7",
+     "size": 855
+    }
+   ],
+   "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 128 128\">\n  <rect width=\"128\" height=\"128\" rx=\"26\" fill=\"#1f3a5f\"/>\n  <circle cx=\"64\" cy=\"64\" r=\"38\" fill=\"none\" stroke=\"#9cc3f0\" stroke-width=\"10\"/>\n  <circle cx=\"64\" cy=\"64\" r=\"14\" fill=\"#9cc3f0\"/>\n</svg>\n"
+  },
+  {
+   "api": 2,
+   "id": "firefox",
+   "name": "Firefox ESR",
+   "version": "0.1.0",
+   "publisher": "V2Mac",
+   "description": "Mozilla's browser, from Debian. Every site sees only this mini VM's exit: its time zone, its city for location, no local addresses over WebRTC.",
+   "icon": "icon.svg",
+   "display": "gui",
+   "launch": {
+    "cmd": [
+     "/usr/local/bin/start.sh"
+    ]
+   },
+   "permissions": [
+    "clipboard",
+    "shared",
+    "sound",
+    "microphone"
+   ],
+   "changelog": "First release: Debian's Firefox ESR, updated by Debian, with telemetry off, fingerprinting protection on, WebRTC limited to the exit's address and location set to the exit's city.",
+   "securityNotes": "Clipboard for copy and paste, Shared for downloads and uploads, Sound and Microphone for video, music and calls; V2Mac asks before each is first used while it is open. Location is answered from the exit's coordinates (exit.json); WebRTC never offers local addresses.",
+   "packages": [
+    "firefox-esr",
+    "fonts-noto-color-emoji"
+   ],
+   "from": "ghcr.io/v2macapp/v2mac-base@sha256:fbe31f5579158feecc00957f96d2a7fb79c771a5fe99e388cbc4ddd4ae57abfc",
+   "source": {
+    "repo": "https://github.com/v2macapp/v2mac-firefox",
+    "commit": "69cb5f4d18c21316174481198d91e12d2e024d52"
+   },
+   "layers": [
+    {
+     "url": "https://github.com/v2macapp/v2mac-firefox/releases/download/v0.1.0/firefox-0.1.0.tar.gz",
+     "sha256": "90672f6a913c60175f99194d611ae6a39120b282b00897184cb009305961a130",
+     "size": 1782
+    }
+   ],
+   "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 128 128\">\n  <defs>\n    <linearGradient id=\"g\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#ffb347\"/>\n      <stop offset=\"1\" stop-color=\"#e8452c\"/>\n    </linearGradient>\n  </defs>\n  <rect width=\"128\" height=\"128\" rx=\"26\" fill=\"#2b1d4f\"/>\n  <circle cx=\"64\" cy=\"64\" r=\"40\" fill=\"url(#g)\"/>\n  <path d=\"M30 64h68M64 24c-16 18-16 62 0 80M64 24c16 18 16 62 0 80\" fill=\"none\" stroke=\"#2b1d4f\" stroke-width=\"5\"/>\n</svg>\n"
+  },
+  {
+   "api": 2,
+   "id": "ssh",
+   "name": "SSH",
+   "version": "0.1.0",
+   "publisher": "V2Mac",
+   "description": "Connect to your servers through this mini VM's exit with the SSH keys on your Mac. The keys never enter the VM. OpenSSH comes from Debian.",
+   "icon": "icon.svg",
+   "display": "pty",
+   "packages": [
+    "openssh-client"
+   ],
+   "launch": {
+    "cmd": [
+     "/usr/local/bin/start.sh"
+    ]
+   },
+   "permissions": [
+    "ssh-agent"
+   ],
+   "changelog": "First release: OpenSSH from Debian, updated by Debian, using your Mac's ssh-agent after V2Mac asks.",
+   "securityNotes": "ssh-agent lets this app ask your Mac to sign with your keys while it is open and after you allow it; the keys stay on the Mac. Agent forwarding to servers is turned off.",
+   "from": "ghcr.io/v2macapp/v2mac-base@sha256:fbe31f5579158feecc00957f96d2a7fb79c771a5fe99e388cbc4ddd4ae57abfc",
+   "source": {
+    "repo": "https://github.com/v2macapp/v2mac-ssh",
+    "commit": "6977cea077220e33a01f3012e546bae858f29ea5"
+   },
+   "layers": [
+    {
+     "url": "https://github.com/v2macapp/v2mac-ssh/releases/download/v0.1.0/ssh-0.1.0.tar.gz",
+     "sha256": "1501d45d9949d882642e218b91ea8727341202e3d1ac722cb6081986185d92cf",
+     "size": 653
+    }
+   ],
+   "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\"><rect width=\"64\" height=\"64\" rx=\"14\" fill=\"#1f2937\"/><path d=\"M15 21l12 11-12 11\" fill=\"none\" stroke=\"#34d399\" stroke-width=\"6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M32 44h17\" stroke=\"#e5e7eb\" stroke-width=\"6\" stroke-linecap=\"round\"/></svg>\n"
+  },
+  {
+   "api": 2,
+   "id": "file-viewer",
+   "name": "File Viewer",
+   "version": "0.1.0",
+   "publisher": "V2Mac",
+   "description": "Open a PDF or Office file you don't trust in a mini VM instead of on your Mac. Macros and links stay off. A successful attack could still read that mini VM's Shared folder and send it through its exit, so keep only the files you want to view there.",
+   "icon": "icon.svg",
+   "display": "gui",
+   "packages": [
+    "evince",
+    "libreoffice-gtk3",
+    "libreoffice-writer",
+    "libreoffice-calc",
+    "libreoffice-impress",
+    "fonts-noto-core"
+   ],
+   "launch": {
+    "cmd": [
+     "/usr/local/bin/start.sh"
+    ]
+   },
+   "permissions": [
+    "shared"
+   ],
+   "changelog": "First release: Evince and LibreOffice from Debian, updated by Debian, read-only with macros, active content and link updates locked off.",
+   "securityNotes": "Shared is how files get in, and it is read-write: a successful exploit could change or read what is in this mini VM's Shared folder and send it through the exit. It can't reach the Mac's other files or its IP. The profile is kept in memory and is gone when the app closes.",
+   "from": "ghcr.io/v2macapp/v2mac-base@sha256:fbe31f5579158feecc00957f96d2a7fb79c771a5fe99e388cbc4ddd4ae57abfc",
+   "source": {
+    "repo": "https://github.com/v2macapp/v2mac-file-viewer",
+    "commit": "76ad717293bc00e73e7d1b77003509aaa8fdc08e"
+   },
+   "layers": [
+    {
+     "url": "https://github.com/v2macapp/v2mac-file-viewer/releases/download/v0.1.0/file-viewer-0.1.0.tar.gz",
+     "sha256": "e6f7282cdb0af1aaf1246fc478dd90af4d33c437eea755ceb6250d91ca2b9c20",
+     "size": 1576
+    }
+   ],
+   "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\"><rect width=\"64\" height=\"64\" rx=\"14\" fill=\"#0f766e\"/><path d=\"M18 10h20l10 10v34H18z\" fill=\"#f8fafc\"/><path d=\"M38 10v10h10\" fill=\"#cbd5e1\"/><path d=\"M24 30h16M24 37h16M24 44h10\" stroke=\"#0f766e\" stroke-width=\"3\" stroke-linecap=\"round\"/></svg>\n"
   }
  ],
  "templates": [],
