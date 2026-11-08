@@ -1,6 +1,6 @@
 {
- "version": 6,
- "expires": "2027-02-02T01:08:34Z",
+ "version": 7,
+ "expires": "2027-02-06T00:31:42Z",
  "minApi": 1,
  "plugins": [
   {
@@ -37,46 +37,6 @@
     }
    ],
    "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 128 128\">\n  <rect width=\"128\" height=\"128\" rx=\"26\" fill=\"#234858\"/>\n  <rect x=\"24\" y=\"30\" width=\"80\" height=\"68\" rx=\"6\" fill=\"#d4ecdf\"/>\n  <path d=\"M24 48h80\" stroke=\"#234858\" stroke-width=\"6\"/>\n</svg>\n"
-  },
-  {
-   "api": 2,
-   "id": "chromium",
-   "name": "Chromium",
-   "version": "0.3.0",
-   "publisher": "V2Mac",
-   "description": "The open-source browser behind Google Chrome, from Debian. Every site sees only this mini VM's exit, in its time zone.",
-   "icon": "icon.svg",
-   "display": "gui",
-   "launch": {
-    "cmd": [
-     "/usr/local/bin/start.sh"
-    ]
-   },
-   "permissions": [
-    "clipboard",
-    "shared",
-    "sound",
-    "microphone"
-   ],
-   "changelog": "Chromium now comes from Debian and gets Debian's security updates on its own, without waiting for a new V2Mac release.",
-   "securityNotes": "Clipboard for copy and paste, Shared for downloads and uploads, Sound and Microphone for video, music and calls; V2Mac asks before each is first used while it is open. Runs with --no-sandbox: the mini VM container allows no user namespaces or setuid, so Chromium's own sandbox can't start; the container and the mini VM are the isolation.",
-   "packages": [
-    "chromium",
-    "fonts-noto-color-emoji"
-   ],
-   "from": "ghcr.io/v2macapp/v2mac-base@sha256:fbe31f5579158feecc00957f96d2a7fb79c771a5fe99e388cbc4ddd4ae57abfc",
-   "source": {
-    "repo": "https://github.com/v2macapp/v2mac-chromium",
-    "commit": "d27bb01d45247f1a718e94d27441ed74d4dcf203"
-   },
-   "layers": [
-    {
-     "url": "https://github.com/v2macapp/v2mac-chromium/releases/download/v0.3.0/chromium-0.3.0.tar.gz",
-     "sha256": "27054d0446aa70df6738928134d2dc6b7da93e6dddc9057750a022d34850cea7",
-     "size": 855
-    }
-   ],
-   "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 128 128\">\n  <rect width=\"128\" height=\"128\" rx=\"26\" fill=\"#1f3a5f\"/>\n  <circle cx=\"64\" cy=\"64\" r=\"38\" fill=\"none\" stroke=\"#9cc3f0\" stroke-width=\"10\"/>\n  <circle cx=\"64\" cy=\"64\" r=\"14\" fill=\"#9cc3f0\"/>\n</svg>\n"
   },
   {
    "api": 2,
@@ -156,11 +116,51 @@
   },
   {
    "api": 2,
+   "id": "chromium",
+   "name": "Chromium",
+   "version": "0.3.1",
+   "publisher": "V2Mac",
+   "description": "The open-source browser behind Google Chrome, from Debian. Every site sees only this mini VM's exit, in its time zone.",
+   "icon": "icon.svg",
+   "display": "gui",
+   "launch": {
+    "cmd": [
+     "/usr/local/bin/start.sh"
+    ]
+   },
+   "permissions": [
+    "clipboard",
+    "shared",
+    "sound",
+    "microphone"
+   ],
+   "changelog": "Security Notes now say plainly that Chromium's own sandbox is off, and why.",
+   "securityNotes": "Browser sandbox off: Chromium runs with --no-sandbox, so one site that breaks into Chromium can reach the rest of this app. Chromium refuses its sandbox when run as root, and mini VM apps run as root (without capabilities) in their container; the container and the mini VM are the isolation, so other mini VMs and your Mac stay out of reach. Clipboard for copy and paste, Shared for downloads and uploads, Sound and Microphone for video, music and calls; V2Mac asks before each is first used while it is open.",
+   "packages": [
+    "chromium",
+    "fonts-noto-color-emoji"
+   ],
+   "from": "ghcr.io/v2macapp/v2mac-base@sha256:fbe31f5579158feecc00957f96d2a7fb79c771a5fe99e388cbc4ddd4ae57abfc",
+   "source": {
+    "repo": "https://github.com/v2macapp/v2mac-chromium",
+    "commit": "8a6f75f06e4f025427f8b4452c69ad2fd9af9bec"
+   },
+   "layers": [
+    {
+     "url": "https://github.com/v2macapp/v2mac-chromium/releases/download/v0.3.1/chromium-0.3.1.tar.gz",
+     "sha256": "519c81941c14b1f7019385588ad5f3b852f96a3e2ccf0a4b5e89b7a1322d0640",
+     "size": 861
+    }
+   ],
+   "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 128 128\">\n  <rect width=\"128\" height=\"128\" rx=\"26\" fill=\"#1f3a5f\"/>\n  <circle cx=\"64\" cy=\"64\" r=\"38\" fill=\"none\" stroke=\"#9cc3f0\" stroke-width=\"10\"/>\n  <circle cx=\"64\" cy=\"64\" r=\"14\" fill=\"#9cc3f0\"/>\n</svg>\n"
+  },
+  {
+   "api": 2,
    "id": "file-viewer",
    "name": "File Viewer",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "publisher": "V2Mac",
-   "description": "Open a PDF or Office file you don't trust in a mini VM instead of on your Mac. Macros and links stay off. A successful attack could still read that mini VM's Shared folder and send it through its exit, so keep only the files you want to view there.",
+   "description": "Open a PDF or Office file you don't trust in a mini VM instead of on your Mac: drop it on the app or use Open With. Macros and links stay off, and the app sees only that file, read-only, with no network. With the optional Shared permission it can open files in Shared instead, and then a successful attack could read that folder and send it through the mini VM's exit.",
    "icon": "icon.svg",
    "display": "gui",
    "packages": [
@@ -179,18 +179,18 @@
    "permissions": [
     "shared"
    ],
-   "changelog": "First release: Evince and LibreOffice from Debian, updated by Debian, read-only with macros, active content and link updates locked off.",
-   "securityNotes": "Shared is how files get in, and it is read-write: a successful exploit could change or read what is in this mini VM's Shared folder and send it through the exit. It can't reach the Mac's other files or its IP. The profile is kept in memory and is gone when the app closes.",
+   "changelog": "Open a file by dropping it on the app or with Open With: the app gets only that file, read-only, and no network. Shared is now optional.",
+   "securityNotes": "Without Shared, a file you open is copied in read-only and the app has no network, so an exploit can read only that file and can't send it anywhere. With Shared, which is read-write, a successful exploit could change or read what is in this mini VM's Shared folder and send it through the exit. It can't reach the Mac's other files or its IP either way. The profile is kept in memory and is gone when the app closes.",
    "from": "ghcr.io/v2macapp/v2mac-base@sha256:fbe31f5579158feecc00957f96d2a7fb79c771a5fe99e388cbc4ddd4ae57abfc",
    "source": {
     "repo": "https://github.com/v2macapp/v2mac-file-viewer",
-    "commit": "76ad717293bc00e73e7d1b77003509aaa8fdc08e"
+    "commit": "52de12f2f5a92986b828629650323e6b439dfcc5"
    },
    "layers": [
     {
-     "url": "https://github.com/v2macapp/v2mac-file-viewer/releases/download/v0.1.0/file-viewer-0.1.0.tar.gz",
-     "sha256": "e6f7282cdb0af1aaf1246fc478dd90af4d33c437eea755ceb6250d91ca2b9c20",
-     "size": 1576
+     "url": "https://github.com/v2macapp/v2mac-file-viewer/releases/download/v0.2.0/file-viewer-0.2.0.tar.gz",
+     "sha256": "15233255ddb7b95c189b251e91542caf66d96b46b14e4f41cc6688c320f13377",
+     "size": 1718
     }
    ],
    "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\"><rect width=\"64\" height=\"64\" rx=\"14\" fill=\"#0f766e\"/><path d=\"M18 10h20l10 10v34H18z\" fill=\"#f8fafc\"/><path d=\"M38 10v10h10\" fill=\"#cbd5e1\"/><path d=\"M24 30h16M24 37h16M24 44h10\" stroke=\"#0f766e\" stroke-width=\"3\" stroke-linecap=\"round\"/></svg>\n"
