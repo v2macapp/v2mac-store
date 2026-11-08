@@ -1,0 +1,13 @@
+# Fails when an accepted submission is missing from the signed index (security plan S1.4).
+name: Index matches submissions
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions: { contents: read }
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 Scripts/check-index.py --selftest && python3 Scripts/check-index.py
